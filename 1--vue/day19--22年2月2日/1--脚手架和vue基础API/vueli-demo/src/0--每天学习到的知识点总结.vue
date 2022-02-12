@@ -1,0 +1,56 @@
+<template>
+  <div>
+    <!-- 1-- 箭头函数的复习 -->
+    const fn = () => {}
+    fn()
+
+    const fn2 = (a, b) => {return a + b}
+    fn(10, 20);
+
+    // 3.当形参只有一个的时候，可以省略
+    const f3 = a => {return a * 2}
+    fn(50);
+
+    // 4.当{}省略，return也省略，默认返回箭头后表达式结果
+    const fn4 = a => a * 2
+    fn(50);
+
+    // ---------------------------------------------
+    <!-- 2--Vue数组操作方法 -->
+    <!-- （2.1） 求总价 -->
+    return this.list.reduce((sum, obj) => sum += obj.price, 0)
+
+    <!-- （2.2） 删除指定 id 的数据 -->
+    delFn(id){
+      <!-- 通过 id 找到这条数据在数组中下标 -->
+      let index = this.list.findIndex(obj => obj.id === id)
+      this.list.splice(index, 1)
+    }
+
+     <!-- （2.3）every 口诀: 查找数组里"不符合"条件, 直接原地返回 false -->
+    return this.arr.every(obj => obj.c === true)
+
+     <!-- （2.4）求总数量 -->
+    allCount(){
+    return this.arr.reduce((sum, obj) => {
+      if (obj.goods_state === true) { // 选中商品才累加数量
+        sum += obj.goods_count;
+        }
+        return sum;
+      }, 0)
+    }
+
+
+  </div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
+

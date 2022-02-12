@@ -1,13 +1,7 @@
 <template>
-  <!--    删除
-    需求1：点击删除的a标签，删除数据
-    需要2：删除没数据了，要提示暂无数据的tfoot
-    分析
-    （1）a标签绑定了点击事件
-    （2）给事件方法传id
-    （3）通过id找到对应数据删除
-    （4）删除光了，要让tfoot显示
-    （5）删除光了再新增，有bug(id问题)需要修复
+  <!-- 
+    需求1：实现表单数据新增进表格功能
+    需要2：判断用户输入是否为空给提示
   -->
   <div id="app">
     <div class="container">
@@ -36,20 +30,17 @@
           <!-- 如果价格超过100，就有red这个类 -->
           <td :class="{red: obj.price > 100}">{{ obj.price }}</td>
           <td>{{ obj.time }}</td>
-          <td>
-            <a href="#" @click="delFn(obj.id)">删除</a>  
-          </td>
+          <td>删除</td>
         </tr>
       </tbody>
       <!-- 根 -->
       <!-- 频繁的使用，用这个 -->
       <tfoot v-show="list.length === 0">
-        <tr>
-          <td colspan="5" style="text-align: center">暂无数据</td>
-        </tr>
+          <tr>
+            <td colspan="5" style="text-align: center">暂无数据</td>
+          </tr>
         </tfoot>
       </table>
-      <!-- 表单 -->
       <form class="form-inline">
         <div class="form-group">
           <div class="input-group">
@@ -83,14 +74,14 @@
 </template>
 
 <script>
-// 目标: 删除功能
-// 1. 删除a标签-点击事件
-// 2. 对应方法名
-// 3. 数据id到事件方法中
-// 4. 通过id, 找到这条数据在数组中的下标
-// 5. splice方法删除原数组里的对应元素
-// 6. 设置tfoot, 无数据给出提示
-// 7. 无数据再新增, id要判断一下
+// （二）目标
+// 1. 按钮 - 事件
+// 2. 给表单v-model绑定vue变量
+// 分析
+// ① 添加资产按钮 – 绑定点击事件
+// ② 给表单v-model绑定vue变量收集用户输入内容
+// ③ 添加数组到数组中
+// ④ 判断用户内容是否符合规定
 export default {
   data() {
     return {
@@ -113,28 +104,14 @@ export default {
         alert("不能为空")
         return
       }
-      
-      // (bug) 这里解决一个bug
-      // 无数组新增-list没有数据，id需要给一个固定值（以后id都是后台生成的，现在是模拟给一个id）
-      let id = this.list.length > 0 ? this.list[this.list.length - 1].id + 1 : 100   
       // 3. 把值以对象形式-插入list
       this.list.push({
         // 当前数组最后一个对象的id + 1 作为新对象的id值
-        id: id,
+        id: this.list[this.list.length - 1].id + 1,
         name: this.name,
         price: this.price,
         time: new Date()
       })
-    },
-    // 删除
-    delFn(id) {
-      // 箭头函数的复习一下吧
-      // 人，反省，然后往后看就行了，不要想得太多了
-
-      // 这个就是找到索引的位置
-      let index = this.list.findIndex(obj => obj.id === id)
-      // 现在都是对于数组的操作，所以用这些处理数组的函数
-      this.list.splice(index, 1)
     }
   },
 }
